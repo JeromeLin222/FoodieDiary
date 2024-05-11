@@ -14,10 +14,10 @@ const seedData = Data.map(data => {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('restaurants', seedData)
+    await queryInterface.bulkInsert('Restaurants', seedData)
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('restaurants', null)
+    await queryInterface.bulkDelete('Restaurants', null)
   }
 };
