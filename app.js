@@ -1,5 +1,6 @@
 const express = require('express')
 const { engine } = require('express-handlebars')
+const methodOverride = require('method-override')
 const app = express()
 const port = 3000
 // const restaurants = require('./public/jsons/restaurant.json').results
@@ -11,7 +12,7 @@ app.engine('.hbs', engine({extname: '.hbs'}))
 app.set('view engine', '.hbs')
 app.set('views', './views')
 app.use(express.static('public'))
-
+app.use(methodOverride('_method'))
 
 
 app.get('/',(req, res) => {
@@ -22,7 +23,15 @@ app.get('/',(req, res) => {
 app.get('/restaurants', async (req, res) => {
     try {
         const restaurants = await Restaurant.findAll({
-            attributes: ['id', 'name', 'name_en', 'category', 'image', 'location', 'rating', 'description'],
+            attributes: [
+                'id', 
+                'name', 
+                'name_en', 
+                'category', 
+                'image', 
+                'location', 
+                'rating', 
+            ],
             raw: true
         })
         // Get the keyword from the query parameter and trim it
@@ -41,15 +50,77 @@ app.get('/restaurants', async (req, res) => {
     }
 })
 
+app.get('/restaurants/new', (req, res) => {
+    return res.render('new',{test: 'create'})
+})
+
+app.get('/restaurant/:id/edit', async (req, res) => {
+    const id = req.params.id
+    try {
+        const selectedRestaurant = await Restaurant.findByPk(id, {
+            attributes: [
+                'id',
+                'name',
+                'name_en',
+                'phone',
+                'category',
+                'image',
+                'location',
+                'rating',
+                'description'
+            ],
+            raw: true
+        })
+        if (!selectedRestaurant) {
+            res.status(404).send('Restaurant not found')
+            return
+        }
+        res.render('edit', {selectedRestaurant})
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Server Error')
+    }
+})
+
 
 app.get('/restaurant/:id', async (req, res) => {
     const id = req.params.id
-    return await Restaurant.findByPk(id, {
-        attributes: ['id', 'name', 'name_en','phone', 'category', 'image', 'location', 'rating', 'description'],
-        raw: true
-    })
-        .then((selectedRestaurant) => res.render('show', {selectedRestaurant: selectedRestaurant}))
-        .catch((err) => console.log(err))
+    try {
+        const selectedRestaurant = await Restaurant.findByPk(id, {
+            attributes: [
+                'id',
+                'name',
+                'name_en',
+                'phone',
+                'category',
+                'image',
+                'location',
+                'rating',
+                'description'
+            ],
+            raw: true
+        })
+        res.render('show', {selectedRestaurant})
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Server Error')
+    }
+})
+
+app.delete('/restaurants/:id', async (req, res) => {
+    const id = req.params.id
+    // console.log('delete: ', id)
+    try {
+        await Restaurant.destroy({
+            where: {
+                id: id
+            }
+        })
+        res.redirect('/restaurants')
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Server Error')
+    }
 })
 
 
