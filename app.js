@@ -11,6 +11,7 @@ const Restaurant = db.Restaurant
 app.engine('.hbs', engine({extname: '.hbs'}))
 app.set('view engine', '.hbs')
 app.set('views', './views')
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
@@ -54,7 +55,7 @@ app.get('/restaurants/new', (req, res) => {
     return res.render('new',{test: 'create'})
 })
 
-app.get('/restaurant/:id/edit', async (req, res) => {
+app.get('/restaurants/:id/edit', async (req, res) => {
     const id = req.params.id
     try {
         const selectedRestaurant = await Restaurant.findByPk(id, {
@@ -66,6 +67,7 @@ app.get('/restaurant/:id/edit', async (req, res) => {
                 'category',
                 'image',
                 'location',
+                'google_map',
                 'rating',
                 'description'
             ],
@@ -75,7 +77,34 @@ app.get('/restaurant/:id/edit', async (req, res) => {
             res.status(404).send('Restaurant not found')
             return
         }
-        res.render('edit', {selectedRestaurant})
+        res.render('edit', {restaurant: selectedRestaurant})
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Server Error')
+    }
+})
+
+app.put('/restaurants/:id/', async (req, res) => {
+    console.log(req.body)
+    console.log(req.body.category)
+    const id = req.params.id
+    const restaurantBody = req.body
+    try {
+        const [affectedCount, affectedRows] = await Restaurant.update(
+            {
+            name: restaurantBody.name,
+            name_en: restaurantBody.name_en,
+            category: restaurantBody.category,
+            location: restaurantBody.location,
+            image: restaurantBody.image,
+            phone: restaurantBody.phone,
+            google_map: restaurantBody.google_map,
+            rating: restaurantBody.rating,
+            description: restaurantBody.description
+            },
+            { where: { id: id } }
+        )
+        res.redirect('/restaurants')
     } catch (err) {
         console.log(err)
         res.status(500).send('Server Error')
@@ -95,6 +124,7 @@ app.get('/restaurant/:id', async (req, res) => {
                 'category',
                 'image',
                 'location',
+                'google_map',
                 'rating',
                 'description'
             ],
@@ -106,6 +136,7 @@ app.get('/restaurant/:id', async (req, res) => {
         res.status(500).send('Server Error')
     }
 })
+
 
 app.delete('/restaurants/:id', async (req, res) => {
     const id = req.params.id

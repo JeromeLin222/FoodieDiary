@@ -1,1 +1,118 @@
-<h1>{{ selectedRestaurant.name }}</h1>
+<header>
+  <!-- navigation -->
+  <nav class="navbar navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/restaurants">
+        <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
+          width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
+        我的餐廳清單
+      </a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <form class="needs-validation" action="/restaurants/{{ restaurant.id }}?_method=PUT" method="POST" novalidate>
+
+        {{!-- Restaurant Name --}}
+        <div class="row mb-3">
+          <label for="name" class="col-sm-2 col-form-label">餐廳名稱</label>
+          <div class="col-sm-10">
+            <input name="name" type="text" class="form-control" id="name" value="{{ restaurant.name }}">
+          </div>
+          <div class="invalid-feedback">
+            Please input restaurant name.
+          </div>
+        </div>
+
+        {{!-- Restaurant English Name --}}
+        <div class="row mb-3">
+          <label for="name_en" class="col-sm-2 col-form-label">餐廳英文名</label>
+          <div class="col-sm-10">
+            <input name="name_en" type="text" class="form-control" id="name_en" value="{{ restaurant.name_en }}"
+              required>
+          </div>
+        </div>
+
+        {{!-- Restaurant category --}}
+        <div class="row mb-3">
+          <label for="category" class="col-sm-2 col-form-label">餐廳類別</label>
+          <div class="col-sm-10">
+            <select name="category" class="form-select" id="category">
+              <option value="{{ restaurant.category }}">{{ restaurant.category }}</option>
+              <option value="台式料理">台式料理</option>
+              <option value="中東料理">中東料理</option>
+              <option value="義式餐廳">義式餐廳</option>
+              <option value="美式">美式</option>
+              <option value="咖啡">咖啡</option>
+              <option value="酒吧">酒吧</option>
+            </select>
+          </div>
+        </div>
+
+        {{!-- Restaurant location --}}
+        <div class="row mb-3">
+          <label for="location" class="col-sm-2 col-form-label">餐廳地址</label>
+          <div class="col-sm-10">
+            <input name="location" type="text" class="form-control" id="location" value="{{ restaurant.location }}">
+          </div>
+        </div>
+
+        {{!-- Restaurant image link --}}
+        <div class="row mb-3">
+          <label for="image" class="col-sm-2 col-form-label">圖片連結</label>
+          <div class="col-sm-10">
+            <input name="image" type="text" class="form-control" id="image" value="{{ restaurant.image }}">
+          </div>
+        </div>
+
+        {{!-- Restaurant phone number --}}
+        <div class="row mb-3">
+          <label for="phone" class="col-sm-2 col-form-label">餐廳電話</label>
+          <div class="col-sm-10">
+            <input name="phone" type="text" class="form-control" id="phone" value="{{ restaurant.phone }}">
+          </div>
+        </div>
+
+        {{!-- Google map link --}}
+        <div class="row mb-3">
+          <label for="google_map" class="col-sm-2 col-form-label">Google map 網址</label>
+          <div class="col-sm-10">
+            <input name="google_map" type="text" class="form-control" id="google_map"
+              value="{{ restaurant.google_map }}">
+          </div>
+        </div>
+
+        {{!-- rating --}}
+        <div class="row mb-3">
+          <label for="rating" class="col-sm-2 col-form-label">Google map 網址</label>
+          <div class="col-sm-10">
+            <input name="rating" type="text" class="form-control" id="rating"
+              value="{{ restaurant.rating }}">
+          </div>
+        </div>
+
+        {{!-- Describe --}}
+        <div class="row mb-3">
+          <label for="description" class="col-sm-2 col-form-label">餐廳簡介</label>
+          <div class="col-sm-10">
+            <textarea class="form-control" id="description" rows="3" name="description" value="{{ restaurant.description }}">{{ restaurant.description}}</textarea>
+          </div>
+        </div>
+
+        {{!-- Button --}}
+        <div class="col-12">
+          <button class="btn btn-primary" type="Submit">Save
+        </div>
+    </div>
+
+
+    </form>
+  </div>
+</div>
+</div>
+
+
+<script src="/public/javascripts/form.js"></script>
