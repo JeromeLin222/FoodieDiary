@@ -9,9 +9,10 @@
       </a>
     </div>
   </nav>
+  <div class="banner"></div>
 </header>
 
-<div class="container">
+<div class="container mt-3">
   <div class="card">
     <div class="card-body">
       <form class="needs-validation" action="/restaurants/{{ restaurant.id }}?_method=PUT" method="POST" novalidate>
@@ -89,8 +90,7 @@
         <div class="row mb-3">
           <label for="rating" class="col-sm-2 col-form-label">Google map 網址</label>
           <div class="col-sm-10">
-            <input name="rating" type="text" class="form-control" id="rating"
-              value="{{ restaurant.rating }}">
+            <input name="rating" type="text" class="form-control" id="rating" value="{{ restaurant.rating }}">
           </div>
         </div>
 
@@ -98,7 +98,8 @@
         <div class="row mb-3">
           <label for="description" class="col-sm-2 col-form-label">餐廳簡介</label>
           <div class="col-sm-10">
-            <textarea class="form-control" id="description" rows="3" name="description" value="{{ restaurant.description }}">{{ restaurant.description}}</textarea>
+            <textarea class="form-control" id="description" rows="3" name="description"
+              value="{{ restaurant.description }}">{{ restaurant.description}}</textarea>
           </div>
         </div>
 
@@ -112,7 +113,7 @@
     </form>
   </div>
 </div>
-</div>
+
 
 
 <script src="/public/javascripts/form.js"></script>
