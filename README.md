@@ -11,7 +11,10 @@ This web application provides a restaurant list, created using Node.js and Expre
 
 - List all restaurants
 - Search for restaurants by name
+- Create new restaurants 
 - View detailed information about each restaurant
+- Update restaurant information
+- Delete restaurant
 
 ## Getting Started
 
@@ -22,6 +25,7 @@ These instructions will help you to get a copy of the project and run it on your
 
 - Node.js
 - npm (Node Package Manager)
+- MySQL server v8
 
 ### Installing
 
@@ -39,7 +43,12 @@ cd restaurant_list
 ```
 npm install
 ```
-4. **Launch the application**
+4. **Run migration and seeder to create database data**
+```
+npx sequelize db:migrate
+npx sequelize db:seed:all
+```
+5. **Launch the application**
 ```
 npm run start
 ```
