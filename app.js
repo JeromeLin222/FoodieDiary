@@ -11,6 +11,7 @@ const Restaurant = db.Restaurant
 app.engine('.hbs', engine({ extname: '.hbs' }))
 app.set('view engine', '.hbs')
 app.set('views', './views')
+
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
@@ -18,6 +19,10 @@ app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
     res.redirect('/restaurants')
+})
+
+app.get('/test', (req, res) => {
+    res.render('test')
 })
 
 // Retrieve all restaurants from the database
@@ -108,7 +113,6 @@ app.post('/restaurants', async(req, res) => {
 app.put('/restaurants/:id/', async (req, res) => {
     const id = req.params.id
     const restaurantBody = req.body
-    console.log('restaurantBody: ', restaurantBody)
     try {
         await Restaurant.update({
             name: restaurantBody.name,
@@ -158,7 +162,6 @@ app.get('/restaurant/:id', async (req, res) => {
 
 app.delete('/restaurants/:id', async (req, res) => {
     const id = req.params.id
-    // console.log('delete: ', id)
     try {
         await Restaurant.destroy({
             where: {

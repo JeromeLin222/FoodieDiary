@@ -3,9 +3,10 @@
   <nav class="navbar navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="/">
-          <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png" width="30" height="30" class="d-inline-block align-top" alt="好。吃">
-          我的餐廳清單
-        </a>
+        <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
+          width="30" height="30" class="d-inline-block align-top" alt="好。吃">
+        我的餐廳清單
+      </a>
     </div>
   </nav>
 
@@ -48,7 +49,16 @@
         {{selectedRestaurant.description}}
       </p>
 
-      <img class="rounded mx-auto d-block mb-4 w-100" src="{{selectedRestaurant.image}}" alt="布娜飛比利時啤酒餐廳" style="max-width: 600px;">
+      <img class="rounded mx-auto d-block mb-4 w-100" src="{{selectedRestaurant.image}}" alt="布娜飛比利時啤酒餐廳"
+        style="max-width: 600px;">
     </div>
   </div>
+  <div class="col-12 d-flex mb-5">
+    <a class="btn btn-primary me-2" href="/restaurants">Back</a>
+    <a class="btn btn-secondary me-2" href="/restaurants/{{ selectedRestaurant.id }}/edit">Edit</a>
+    <form action="/restaurants/{{ selectedRestaurant.id }}/?_method=DELETE" method="POST">
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+  </div>
+
 </div>
