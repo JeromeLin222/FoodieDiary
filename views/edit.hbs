@@ -11,9 +11,12 @@
   </nav>
   <div class="banner"></div>
 </header>
-
+<h1 class="mb-1 restaurant-show-title">{{restaurant.name}}</h1>
 <div class="container mt-3 mb-3">
   <div class="card">
+    <div class="card-header" style="font-weight: bold;">
+      {{ restaurant.name }}
+    </div>
     <div class="card-body">
       <form class="needs-validation" action="/restaurants/{{ restaurant.id }}?_method=PUT" method="POST" novalidate>
 

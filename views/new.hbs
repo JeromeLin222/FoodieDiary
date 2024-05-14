@@ -5,16 +5,20 @@
       <a class="navbar-brand" href="/restaurants">
         <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
           width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
-        建立新餐廳
+        我的餐廳清單
       </a>
     </div>
   </nav>
 
   <div class="banner"></div>
 </header>
+<h1 class="mb-1 restaurant-show-title">建立餐廳資訊</h1>
 
 <div class="container mt-3 mb-3">
   <div class="card">
+    <div class="card-header" style="font-weight: bold;">
+      新增餐廳
+    </div>
     <div class="card-body">
       <form class="needs-validation" action="/restaurants" method="POST" novalidate>
 
@@ -68,7 +72,7 @@
         <div class="row mb-3">
           <label for="image" class="col-sm-2 col-form-label">圖片連結</label>
           <div class="col-sm-10">
-            <input name="image" type="text" class="form-control" id="image" placeholder="請輸入圖片連結"  required>
+            <input name="image" type="text" class="form-control" id="image" placeholder="請輸入圖片連結" required>
             <div class="invalid-feedback">請輸入圖片連結</div>
           </div>
         </div>
@@ -86,7 +90,8 @@
         <div class="row mb-3">
           <label for="google_map" class="col-sm-2 col-form-label">Google Map</label>
           <div class="col-sm-10">
-            <input name="google_map" type="text" class="form-control" id="google_map" placeholder="Google Map 連結" required>
+            <input name="google_map" type="text" class="form-control" id="google_map" placeholder="Google Map 連結"
+              required>
             <div class="invalid-feedback">請輸入 Google Map 連結</div>
           </div>
         </div>
@@ -95,7 +100,8 @@
         <div class="row mb-3">
           <label for="rating" class="col-sm-2 col-form-label">評分</label>
           <div class="col-sm-10">
-            <input name="rating" type="number" min="1" max="5" step="0.1" class="form-control" id="rating" placeholder="請輸入評分: 1 - 5">
+            <input name="rating" type="number" min="1" max="5" step="0.1" class="form-control" id="rating"
+              placeholder="請輸入評分: 1 - 5">
           </div>
         </div>
 
@@ -109,7 +115,7 @@
 
         {{!-- Button --}}
         <div class="col-12">
-          <button class="btn btn-primary" type="Submit">Save
+          <button class="btn btn-primary" type="Submit">Create
         </div>
     </div>
     </form>
