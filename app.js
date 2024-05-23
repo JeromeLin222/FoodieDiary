@@ -4,7 +4,7 @@ const methodOverride = require('method-override')
 const session = require('express-session')
 const flash  = require('connect-flash')
 const messageHandler = require('./middleware/message-handler')
-
+const errorHandler = require('./middleware/error-handler')
 const router = require('./routes')
 
 
@@ -27,9 +27,9 @@ app.use(session({
     saveUninitialized: false
 }))
 app.use(flash())
-
 app.use(messageHandler)
 app.use(router)
+app.use(errorHandler)
 
 
 app.listen(port, () => {
