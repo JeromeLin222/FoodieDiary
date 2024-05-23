@@ -1,8 +1,12 @@
 const express = require('express')
 const { engine } = require('express-handlebars')
 const methodOverride = require('method-override')
+const session = require('express-session')
+const flash  = require('connect-flash')
+const messageHandler = require('./middleware/message-handler')
 
 const router = require('./routes')
+
 
 const app = express()
 const port = 3000
@@ -17,6 +21,14 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
+app.use(session({
+    secret: 'ThisIsSecret',
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(flash())
+
+app.use(messageHandler)
 app.use(router)
 
 

@@ -6,7 +6,7 @@ const Restaurant = db.Restaurant
 
 
 // Retrieve all restaurants from the database
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     try {
         const restaurants = await Restaurant.findAll({
             attributes: [
@@ -31,13 +31,17 @@ router.get('/', async (req, res) => {
 
         // Render the 'index' view with the matched restaurants and keyword
         res.render('index', { restaurants: matchedRestaurants, keyword: keyword })
-    } catch (err) {
-        console.log(err)
+    } catch (error) {
+        next(error)
     }
 })
 
-router.get('/new', (req, res) => {
-    return res.render('new')
+router.get('/new', (req, res, next) => {
+    try {
+        res.render('new')
+    } catch (error) {
+        next(error)
+    }
 })
 
 router.get('/:id/edit', async (req, res) => {
@@ -63,13 +67,12 @@ router.get('/:id/edit', async (req, res) => {
             return
         }
         res.render('edit', { restaurant: selectedRestaurant })
-    } catch (err) {
-        console.log(err)
-        res.status(500).send('Server Error')
+    } catch (error) {
+        next(error)
     }
 })
 
-router.post('/', async(req, res) => {
+router.post('/', async(req, res, next) => {
     const restaurantBody = req.body
     console.log(restaurantBody)
     try {
@@ -84,13 +87,15 @@ router.post('/', async(req, res) => {
             rating: restaurantBody.rating || null,
             description: restaurantBody.description || null,
         })
+        req.flash('success', '建立成功')
         res.redirect('/restaurants')
-    } catch (err) {
-        console.log(err)
+    } catch (error) {
+        error.errorMessage('資料取得失敗')
+        next(error)
     }
 })
 
-router.put('/:id/', async (req, res) => {
+router.put('/:id/', async (req, res, next) => {
     const id = req.params.id
     const restaurantBody = req.body
     try {
@@ -106,15 +111,16 @@ router.put('/:id/', async (req, res) => {
             description: restaurantBody.description || null,
         }, { where: { id } }
         )
+        req.flash('success', '修改成功')
         res.redirect('/restaurants')
-    } catch (err) {
-        console.log(err)
-        res.status(500).send('Server Error')
+    } catch (error) {
+        error.errorMessage('新增失敗')
+        next(error)
     }
 })
 
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
     const id = req.params.id
     console.log(`this ${{id}}`)
     try {
@@ -134,14 +140,14 @@ router.get('/:id', async (req, res) => {
             raw: true
         })
         res.render('show', { selectedRestaurant })
-    } catch (err) {
-        console.log(err)
-        res.status(500).send('Server Error')
+    } catch (error) {
+        error.errorMessage('資料取得失敗')
+        next(error)
     }
 })
 
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
     const id = req.params.id
     try {
         await Restaurant.destroy({
@@ -149,10 +155,11 @@ router.delete('/:id', async (req, res) => {
                 id: id
             }
         })
+        req.flash('success', '刪除成功')
         res.redirect('/restaurants')
-    } catch (err) {
-        console.log(err)
-        res.status(500).send('Server Error')
+    } catch (error) {
+        error.errorMessage('資料取得失敗')
+        next(error)
     }
 })
 
