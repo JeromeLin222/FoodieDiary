@@ -8,6 +8,28 @@ const Restaurant = db.Restaurant
 // Retrieve all restaurants from the database
 router.get('/', async (req, res, next) => {
     try {
+        const sortOption = req.query.sort
+        let sortCondition = []
+        switch (sortOption) {
+            case 'aToz':
+                sortCondition = [['name', 'ASC']]
+                break
+            case 'zToa':
+                sortCondition = [['name', 'DESC']]
+                break
+            case 'category':
+                sortCondition = [['category', 'ASC']]
+                break
+            case 'location':
+                sortCondition = [['location', 'ASC']]
+                break
+            case 'rating':
+                sortCondition = [['rating', 'DESC']]
+                break
+            default:
+                sortCondition = [['name', 'ASC']]
+        }
+
         const restaurants = await Restaurant.findAll({
             attributes: [
                 'id',
@@ -18,11 +40,12 @@ router.get('/', async (req, res, next) => {
                 'location',
                 'rating',
             ],
+            order: sortCondition,
             raw: true
         })
         // Get the keyword from the query parameter and trim it
         const keyword = req.query.keyword?.trim().toLocaleLowerCase()
-
+    
         // Filter the restaurants based on the keyword
         const matchedRestaurants = keyword ? restaurants.filter((restaurant) => {
             const restaurantName = [restaurant.name, restaurant.name_en]
@@ -30,7 +53,7 @@ router.get('/', async (req, res, next) => {
         }) : restaurants
 
         // Render the 'index' view with the matched restaurants and keyword
-        res.render('index', { restaurants: matchedRestaurants, keyword: keyword })
+        res.render('index', { restaurants: matchedRestaurants, keyword: keyword, sort: sortOption})
     } catch (error) {
         next(error)
     }
@@ -158,7 +181,6 @@ router.delete('/:id', async (req, res, next) => {
         req.flash('success', '刪除成功')
         res.redirect('/restaurants')
     } catch (error) {
-        error.errorMessage('資料取得失敗')
         next(error)
     }
 })

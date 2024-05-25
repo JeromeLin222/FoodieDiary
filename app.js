@@ -13,7 +13,15 @@ const port = 3000
 // const restaurants = require('./public/jsons/restaurant.json').results
 
 
-app.engine('.hbs', engine({ extname: '.hbs' }))
+app.engine('.hbs', engine({ 
+    extname: '.hbs',
+    helpers: {
+        equal: function(v1, v2) {
+            return v1 === v2
+        }
+    }
+
+}))
 app.set('view engine', '.hbs')
 app.set('views', './views')
 

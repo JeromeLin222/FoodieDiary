@@ -5,28 +5,48 @@
       <a class="navbar-brand" href="/restaurants">
           <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png" width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
           我的餐廳清單
-        </a>
+      </a>
+      <a href="/restaurants/new" class="btn btn-info">Add New Restaurant</a>
     </div>
   </nav>
-  {{> message}}
   <div class="banner"></div>
+  {{> message}}
 </header>
 
 <!-- search bar -->
 <div class="container search-bar">
   <div class="search-bar-outer">
     <div class="search-bar-inner">
+      <div>
+        <h4 class="mt-2">尋找餐廳：</h4>
+      </div>
       <form action="/restaurants">
-        <h4 class="mb-2">尋找餐廳：</h4>
-        <div class="input-group">
-          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..." value="{{keyword}}" aria-describedby="search-button">
-          <div class="input-group-append">
-            <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+        <div class="row justify-content-around">
+          
+          <div class="col-5">
+            <div class="input-group">
+              <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..." value="{{keyword}}" aria-describedby="search-button">
+              <div class="input-group-append">
+                <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+              </div>
+            </div>
           </div>
+          
+          <div class="col-6">
+            <select class="form-select" name="sort" id="sort-select" onchange="this.form.submit()">
+              <option selected disabled>排序方式</option>
+              <option value="aToz" {{#if (equal sort 'aToz')}}selected{{/if}}>依照名稱 A → Z</option>
+              <option value="zToa" {{#if (equal sort 'zToa')}}selected{{/if}}>依照名稱 Z → A</option>
+              <option value="category" {{#if (equal sort 'category')}}selected{{/if}}>依照類別</option>
+              <option value="location" {{#if (equal sort 'location')}}selected{{/if}}>依照地區</option>
+              <option value="rating" {{#if (equal sort 'rating')}}selected{{/if}}>依照評分</option>
+            </select>
+          </div>
+
         </div>
       </form>
     </div>
-  </div>
+    
 </div>
 
 <!-- restaurant list -->
@@ -60,7 +80,6 @@
         </div>
         {{/each}}
       </div>
-      <a href="/restaurants/new" class="btn btn-primary">Add New Restaurant</a>
     </div>
   </div>
 </div>
