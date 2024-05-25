@@ -16,9 +16,21 @@ const port = 3000
 app.engine('.hbs', engine({ 
     extname: '.hbs',
     helpers: {
-        equal: function(v1, v2) {
+        equal: (v1, v2) => {
             return v1 === v2
-        }
+        },
+        range: (start, end) => {
+            let array = []
+            for (let i = start; i <= end; i++) {
+                array.push(i)
+            }
+            return array
+        },
+        gt: (v1, v2) => v1 > v2,
+        lt: (v1, v2) => v1 < v2,
+        increment: (value) => parseInt(value) + 1,
+        decrement: (value) => parseInt(value) - 1,
+
     }
 
 }))

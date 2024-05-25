@@ -80,6 +80,26 @@
         </div>
         {{/each}}
       </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          {{#if (gt currentPage 1)}}
+          <li class="page-item">
+            <a class="page-link" href="?page{{decrement currentPage}}&sort={{sort}}&{{keyword}}" aria-label="Previous">Previous</a>
+          </li>
+          {{/if}}
+
+          {{#each (range 1 maxPage) as |page|}}
+          <li class="page-item {{#if (equal page currentPage)}}active{{/if}}">
+            <a class="page-link" href="?page={{page}}&sort={{sort}}&keyword={{keyword}}">{{ page }}</a>
+          </li>
+          {{/each}}
+          {{#if (lt currentPage maxPage)}}
+          <li class="page-item">
+            <a class="page-link" href="?page={{increment currentPage}}&sort={{sort}}&keyword={{keyword}}" aria-label="Next">Next</a>
+          </li>
+          {{/if}}
+        </ul>
+      </nav>
     </div>
   </div>
 </div>

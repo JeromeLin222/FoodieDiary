@@ -7,6 +7,8 @@ const Restaurant = db.Restaurant
 
 // Retrieve all restaurants from the database
 router.get('/', async (req, res, next) => {
+    const currentPage = parseInt(req.query.page) || 1
+    const limit = 6
     try {
         const sortOption = req.query.sort
         let sortCondition = []
@@ -30,7 +32,7 @@ router.get('/', async (req, res, next) => {
                 sortCondition = [['name', 'ASC']]
         }
 
-        const restaurants = await Restaurant.findAll({
+        const {count, rows} = await Restaurant.findAndCountAll({
             attributes: [
                 'id',
                 'name',
@@ -41,8 +43,14 @@ router.get('/', async (req, res, next) => {
                 'rating',
             ],
             order: sortCondition,
-            raw: true
+            offset: (currentPage - 1) * limit,
+            limit,
+            raw: true,
+            
         })
+        const restaurants = rows
+        const maxPage = Math.ceil(count / limit)
+        
         // Get the keyword from the query parameter and trim it
         const keyword = req.query.keyword?.trim().toLocaleLowerCase()
     
@@ -53,7 +61,7 @@ router.get('/', async (req, res, next) => {
         }) : restaurants
 
         // Render the 'index' view with the matched restaurants and keyword
-        res.render('index', { restaurants: matchedRestaurants, keyword: keyword, sort: sortOption})
+        res.render('index', { restaurants: matchedRestaurants, keyword, sort: sortOption, currentPage, maxPage})
     } catch (error) {
         next(error)
     }
